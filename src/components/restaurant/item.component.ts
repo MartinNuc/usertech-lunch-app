@@ -1,19 +1,25 @@
-import {Component, Input} from '@angular/core';
-import {FirebaseListObservable, AngularFire} from "angularfire2/angularfire2";
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {FirebaseObjectObservable, AngularFire} from "angularfire2/angularfire2";
 import {Restaurant} from '../../interfaces/Restaurant.interface.ts';
 import {MenuList} from '../menu/list.component.ts';
 import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.ts';
+import {ToArray} from '../../pipes/to-array.ts';
+import {CountVotes} from '../../pipes/count-votes.ts';
+import {Utility} from '../../utility';
+
 
 @Component({
   selector: 'restaurant-item',
   styles: [ require('./restaurant.component.scss')],
   directives: [MenuList],
-  pipes: [ExtractRestaurantMenu],
+  pipes: [ExtractRestaurantMenu, ToArray, CountVotes],
   template: `
     <h1> restaurant-item </h1>
     <h4>{{restaurant.name}} </h4>
     <div> {{restaurant.location}}</div>
     <div> {{restaurant.category}} </div>
+    ({{restaurant | countVotes:dates}} votes)
+    <button (click)="restaurantVote(restaurant)">Vote for this restaurant</button>
     <menu-list [dishes]="dishes | extractRestaurantMenu : restaurant.id "> </menu-list>
   `
 })
@@ -21,8 +27,15 @@ import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.ts';
 export class RestaurantItem {
   @Input() restaurant: Restaurant;
   dishes: Array<any>;
+  votes: FirebaseObjectObservable<any[]>;
+  dates: any;
+  @Input() name: string;
 
-  constructor(){
+  constructor(private af: AngularFire){
+    this.votes = af.database.object('/votes');
+    this.votes.subscribe((res) => {
+        this.dates = res;
+    });
     this.dishes = [
       {
       "distance":"0.13808051082295206",
@@ -65,4 +78,35 @@ export class RestaurantItem {
    }
     ]
   }
+
+   /**
+     * @description Performs a vote for or against a restaurant
+     * @param {Object} restaurant object to determine which restaurant is voted for/against
+     */
+    restaurantVote(restaurant){
+        let isVotePresent = false;
+              
+        let dateKey = Utility.getTodayString();
+
+        if(this.name === undefined) return;
+        if(this.dates[dateKey][restaurant.id] === undefined){
+            this.dates[dateKey][restaurant.id] = {};
+        }
+
+        Object.keys(this.dates).forEach(key => {
+          if(!this.dates[key] || !this.dates[key][restaurant.id]) return;
+          if(this.dates[key][restaurant.id][this.name]) isVotePresent = true;
+        });
+
+        if(isVotePresent){
+            // vote present, vote against it
+            this.dates[dateKey][restaurant.id][this.name] = !this.dates[dateKey][restaurant.id][this.name];
+        } else {
+            // vote not present, add it as positive
+            this.dates[dateKey][restaurant.id][this.name] = true;
+        }
+        delete this.dates.$key;
+        this.votes.update(this.dates);
+
+    }
 }

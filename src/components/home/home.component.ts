@@ -1,36 +1,22 @@
 import {Component} from '@angular/core';
-import {FirebaseListObservable, FirebaseObjectObservable,  AngularFire} from "angularfire2/angularfire2";
+import {FirebaseObjectObservable,  AngularFire} from "angularfire2/angularfire2";
 import {CountVotes} from '../../pipes/count-votes';
 import {Stringify} from '../../pipes/stringify';
 import {ToArray} from '../../pipes/to-array';
 import {DailyMenuProvider} from '../../models/DailyMenuProvider';
 import {DailyMenuQuery} from '../../interfaces/DailyMenuQuery';
-import {RestaurantItem} from '../../components/restaurant/item.component';
+import {RestaurantList} from '../restaurant/list.component.ts'
 
 @Component({
     selector: 'home-component',
     styles: [require('./home.component.scss')],
+    directives: [RestaurantList],
     pipes: [CountVotes, Stringify, ToArray],
     providers: [DailyMenuProvider],
-    directives: [RestaurantItem],
     template: `
         <h1>Restaurants</h1>
-        <input [(ngModel)]="name" type="text"/>
-        <div *ngFor="let date of votes | async | toArray">
-            <div *ngFor="let restaurant of date.value | toArray">
-                <strong>{{restaurant.$key}}:</strong> ({{restaurant.value | countVotes}} votes)
-                <button (click)="restaurantVote(restaurant, date)">Vote for this restaurant</button>
-                <div *ngFor="let vote of restaurant.value | toArray">
-                    {{vote.$key}}: {{vote.value}}
-                </div>
-            </div>
-        </div>
-
-        <!--<div *ngFor="let dailyMenu of dailyMenus | async">-->
-
-        <!--</div>-->
-
-        <restaurant-item [dishes]="dailyMenus | async"></restaurant-item>
+        <input [(ngModel)]="name" type="text" placeholder="your name"/>
+        <restaurant-list [username]="name"> </restaurant-list>
     `
 })
 export class Home {
@@ -54,26 +40,20 @@ export class Home {
 
     }
 
-    /**
-     * @description Performs a vote for or against a restaurant
-     * @param {Object} restaurant object to determine which restaurant is voted for/against
-     * @param {Object} a date object to determine key of changed object
-     */
-    restaurantVote(restaurant, date){
-        let isVotePresent = restaurant.value[this.name];
-        let dateKey = date.$key;  
-
-        if(this.name === undefined) return;
-
-        if(isVotePresent){
-            // vote present, vote against it
-            this.dates[dateKey][restaurant.$key][this.name] = !this.dates[dateKey][restaurant.$key][this.name];
-        } else {
-            // vote not present, add it as positive
-            this.dates[dateKey][restaurant.$key][this.name] = true;
-        }   
-        delete this.dates.$key;
-        this.votes.update(this.dates);
-
-    }
+   
 }
+
+//
+// <div *ngFor="let date of votes | async | toArray">
+//     <div *ngFor="let restaurant of date.value | toArray">
+//         <strong>{{restaurant.$key}}:</strong> ({{restaurant.value | countVotes}} votes)
+//         <button (click)="restaurantVote(restaurant, date)">Vote for this restaurant</button>
+//         <div *ngFor="let vote of restaurant.value | toArray">
+//             {{vote.$key}}: {{vote.value}}
+//         </div>
+//     </div>
+// </div>
+//
+// <div *ngFor="let dailyMenu of dailyMenus | async">
+//     {{dailyMenu.name}}
+// </div>
