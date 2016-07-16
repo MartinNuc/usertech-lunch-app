@@ -16,7 +16,7 @@ import {RestaurantList} from '../restaurant/list.component.ts'
     template: `
         <h1>Restaurants</h1>
         <input [(ngModel)]="name" type="text"/>
-        <restaurant-list> </restaurant-list>
+        <restaurant-list [username]="name"> </restaurant-list>
     `
 })
 export class Home {

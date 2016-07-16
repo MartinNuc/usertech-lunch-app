@@ -28,7 +28,7 @@ export class RestaurantItem {
   dishes: Array<any>;
   votes: FirebaseObjectObservable<any[]>;
   dates: any;
-  name: string = 'someone';
+  @Input() name: string;
 
   constructor(private af: AngularFire){
     this.votes = af.database.object('/votes');
@@ -83,9 +83,8 @@ export class RestaurantItem {
      * @param {Object} restaurant object to determine which restaurant is voted for/against
      */
     restaurantVote(restaurant){
-        // let isVotePresent = restaurant.value[this.name];
         let isVotePresent = false;
-        
+              
         let today = new Date();
         let dateKey = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
 

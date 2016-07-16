@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FirebaseListObservable, AngularFire} from "angularfire2/angularfire2";
 import {Menu} from '../../interfaces/Menu.interface.ts'
 import {RestaurantItem} from './item.component.ts'
@@ -13,6 +13,7 @@ import {RestaurantItem} from './item.component.ts'
     <restaurant-item
       *ngFor="let restaurant of restaurants"
       [restaurant] = "restaurant"
+      [name] = "username"
     >
     </restaurant-item>
   `
@@ -20,6 +21,7 @@ import {RestaurantItem} from './item.component.ts'
 
 export class RestaurantList {
   restaurants: Array<any>;
+  @Input() username: string;
   constructor() {
     this.restaurants = [
       {
