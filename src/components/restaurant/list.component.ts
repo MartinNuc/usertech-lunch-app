@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FirebaseListObservable, AngularFire} from "angularfire2/angularfire2";
-import {Menu} from '../../model/Menu.interface.ts'
+import {Menu} from '../../interfaces/Menu.interface.ts'
 import {RestaurantItem} from './item.component.ts'
 
 @Component({

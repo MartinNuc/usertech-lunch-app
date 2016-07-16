@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FirebaseListObservable, AngularFire} from "angularfire2/angularfire2";
-import {Dish} from '../../model/Dish.interface.ts'
+import {Dish} from '../../interfaces/Dish.interface.ts'
 
 @Component({
   selector: 'menu-item',

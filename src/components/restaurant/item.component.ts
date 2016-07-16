@@ -6,6 +6,7 @@ import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.ts';
 import {ToArray} from '../../pipes/to-array.ts';
 import {CountVotes} from '../../pipes/count-votes.ts';
 
+
 @Component({
   selector: 'restaurant-item',
   styles: [ require('./restaurant.component.scss')],

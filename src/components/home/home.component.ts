@@ -6,12 +6,14 @@ import {ToArray} from '../../pipes/to-array';
 import {DailyMenuProvider} from '../../models/DailyMenuProvider';
 import {DailyMenuQuery} from '../../interfaces/DailyMenuQuery';
 import {RestaurantList} from '../restaurant/list.component.ts'
+
 @Component({
     selector: 'home-component',
     styles: [require('./home.component.scss')],
     directives: [RestaurantList],
     pipes: [CountVotes, Stringify, ToArray],
     providers: [DailyMenuProvider],
+    directives: [RestaurantItem],
     template: `
         <h1>Restaurants</h1>
         <input [(ngModel)]="name" type="text"/>
