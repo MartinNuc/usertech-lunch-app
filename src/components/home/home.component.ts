@@ -5,12 +5,14 @@ import {Stringify} from '../../pipes/stringify';
 import {ToArray} from '../../pipes/to-array';
 import {DailyMenuProvider} from '../../models/DailyMenuProvider';
 import {DailyMenuQuery} from '../../interfaces/DailyMenuQuery';
+import {RestaurantItem} from '../../components/restaurant/item.component';
 
 @Component({
     selector: 'home-component',
     styles: [require('./home.component.scss')],
     pipes: [CountVotes, Stringify, ToArray],
     providers: [DailyMenuProvider],
+    directives: [RestaurantItem],
     template: `
         <h1>Restaurants</h1>
         <input [(ngModel)]="name" type="text"/>
@@ -24,9 +26,11 @@ import {DailyMenuQuery} from '../../interfaces/DailyMenuQuery';
             </div>
         </div>
 
-        <div *ngFor="let dailyMenu of dailyMenus | async">
-            {{dailyMenu.name}}
-        </div>
+        <!--<div *ngFor="let dailyMenu of dailyMenus | async">-->
+
+        <!--</div>-->
+
+        <restaurant-item [dishes]="dailyMenus | async"></restaurant-item>
     `
 })
 export class Home {

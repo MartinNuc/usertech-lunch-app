@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {FirebaseListObservable, AngularFire} from "angularfire2/angularfire2";
-import {Restaurant} from '../../model/Restaurant.interface.ts';
+import {Restaurant} from '../../interfaces/Restaurant.interface.ts';
 import {MenuList} from '../menu/list.component.ts';
-import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.pipe.ts';
+import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.ts';
 
 @Component({
   selector: 'restaurant-item',
