@@ -15,7 +15,7 @@ import {RestaurantList} from '../restaurant/list.component.ts'
     providers: [DailyMenuProvider],
     template: `
         <h1>Restaurants</h1>
-        <input [(ngModel)]="name" type="text"/>
+        <input [(ngModel)]="name" type="text" placeholder="your name"/>
         <restaurant-list [username]="name"> </restaurant-list>
     `
 })
