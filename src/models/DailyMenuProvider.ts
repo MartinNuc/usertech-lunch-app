@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 //Output format
 //[
 //        {
+//            id: 1
 //            name: "Mie frais",
 //            menu: ["svíčková", "brambory"]
 //        }
@@ -48,6 +49,7 @@ export class DailyMenuProvider{
             }
             if(!restaurantFound) {
                 restaurants.push(<RestaurantArray>{
+                    id: menu.id_restaurant,
                     name: menu.restaurant_name,
                     menu: [menu.name]
                 });
