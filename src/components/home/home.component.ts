@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FirebaseListObservable, FirebaseObjectObservable,  AngularFire} from "angularfire2/angularfire2";
+import {FirebaseObjectObservable,  AngularFire} from "angularfire2/angularfire2";
 import {CountVotes} from '../../pipes/count-votes';
 import {Stringify} from '../../pipes/stringify';
 import {ToArray} from '../../pipes/to-array';
@@ -53,13 +53,16 @@ export class Home {
     /**
      * @description Performs a vote for or against a restaurant
      * @param {Object} restaurant object to determine which restaurant is voted for/against
-     * @param {Object} a date object to determine key of changed object
      */
-    restaurantVote(restaurant, date){
+    restaurantVote(restaurant){
         let isVotePresent = restaurant.value[this.name];
-        let dateKey = date.$key;  
+        let today = new Date();
+        let dateKey = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();;
 
         if(this.name === undefined) return;
+        if(this.dates[dateKey][restaurant.$key] === undefined){
+            this.dates[dateKey][restaurant.$key] = {};
+        }
 
         if(isVotePresent){
             // vote present, vote against it
