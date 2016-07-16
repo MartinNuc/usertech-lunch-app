@@ -40,31 +40,7 @@ export class Home {
 
     }
 
-    /**
-     * @description Performs a vote for or against a restaurant
-     * @param {Object} restaurant object to determine which restaurant is voted for/against
-     */
-    restaurantVote(restaurant){
-        let isVotePresent = restaurant.value[this.name];
-        let today = new Date();
-        let dateKey = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();;
-
-        if(this.name === undefined) return;
-        if(this.dates[dateKey][restaurant.$key] === undefined){
-            this.dates[dateKey][restaurant.$key] = {};
-        }
-
-        if(isVotePresent){
-            // vote present, vote against it
-            this.dates[dateKey][restaurant.$key][this.name] = !this.dates[dateKey][restaurant.$key][this.name];
-        } else {
-            // vote not present, add it as positive
-            this.dates[dateKey][restaurant.$key][this.name] = true;
-        }
-        delete this.dates.$key;
-        this.votes.update(this.dates);
-
-    }
+   
 }
 
 //
