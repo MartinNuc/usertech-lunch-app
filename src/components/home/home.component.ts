@@ -13,7 +13,6 @@ import {RestaurantList} from '../restaurant/list.component.ts'
     directives: [RestaurantList],
     pipes: [CountVotes, Stringify, ToArray],
     providers: [DailyMenuProvider],
-    directives: [RestaurantItem],
     template: `
         <h1>Restaurants</h1>
         <input [(ngModel)]="name" type="text"/>
