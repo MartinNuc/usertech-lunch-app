@@ -8,10 +8,10 @@ bootstrap(AppComponent, [
     appRouterProviders,
     FIREBASE_PROVIDERS,
     defaultFirebase({
-        apiKey: "AIzaSyBBQCiNPupq4G81b6EcCShSXdOTq4_94o8",
-        authDomain: "ehotel-7341a.firebaseapp.com",
-        databaseURL: "https://ehotel-7341a.firebaseio.com/",
-        storageBucket: "ehotel-7341a.appspot.com"
+        apiKey: "AIzaSyC4VktVHhi-Qo9vR5DZeygEqYlW9PF05E0",
+        authDomain: "usertech-lunch-app.firebaseapp.com",
+        databaseURL: "https://usertech-lunch-app.firebaseio.com",
+        storageBucket: "usertech-lunch-app.appspot.com"
     })
 ]);
 
