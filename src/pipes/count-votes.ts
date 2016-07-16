@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {Utility} from '../utility';
 
 @Pipe({ name: 'countVotes' })
 export class CountVotes implements PipeTransform {
@@ -9,8 +10,7 @@ export class CountVotes implements PipeTransform {
         
         Object.keys(dates).forEach(key => {
             let date = dates[key];
-            let today = new Date();
-            let dateKey = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();;
+            let dateKey = Utility.getTodayString();
             let fireRest = dates[dateKey];
             if(fireRest && fireRest[input.id]){
                 fireRestVotes = fireRest[input.id];

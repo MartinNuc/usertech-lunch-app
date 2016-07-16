@@ -5,6 +5,7 @@ import {MenuList} from '../menu/list.component.ts';
 import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.ts';
 import {ToArray} from '../../pipes/to-array.ts';
 import {CountVotes} from '../../pipes/count-votes.ts';
+import {Utility} from '../../utility';
 
 
 @Component({
@@ -85,8 +86,7 @@ export class RestaurantItem {
     restaurantVote(restaurant){
         let isVotePresent = false;
               
-        let today = new Date();
-        let dateKey = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+        let dateKey = Utility.getTodayString();
 
         if(this.name === undefined) return;
         if(this.dates[dateKey][restaurant.id] === undefined){
