@@ -5,6 +5,7 @@ import {MenuList} from '../menu/list.component.ts';
 import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.ts';
 import {ToArray} from '../../pipes/to-array.ts';
 import {CountVotes} from '../../pipes/count-votes.ts';
+import {GetVoters} from '../../pipes/get-voters.ts';
 import {Utility} from '../../utility';
 
 
@@ -12,7 +13,7 @@ import {Utility} from '../../utility';
   selector: 'restaurant-item',
   styles: [ require('./restaurant.component.scss')],
   directives: [MenuList],
-  pipes: [ExtractRestaurantMenu, ToArray, CountVotes],
+  pipes: [ExtractRestaurantMenu, ToArray, CountVotes, GetVoters],
   template: `
     <h1> restaurant-item </h1>
     <h4>{{restaurant.name}} </h4>
@@ -21,6 +22,10 @@ import {Utility} from '../../utility';
     ({{restaurant | countVotes:dates}} votes)
     <button (click)="restaurantVote(restaurant)">Vote for this restaurant</button>
     <menu-list [dishes]="dishes | extractRestaurantMenu : restaurant.id "> </menu-list>
+    <div>
+      <h4>Voters: </h4>
+      <div *ngFor="let voter of restaurant | getVoters:dates">{{voter}}</div>
+    </div>
   `
 })
 
