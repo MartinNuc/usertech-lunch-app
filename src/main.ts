@@ -1,5 +1,6 @@
 import {bootstrap}    from '@angular/platform-browser-dynamic';
 import {AppComponent} from './app.component';
+import {HTTP_PROVIDERS} from '@angular/http';
 import { FIREBASE_PROVIDERS, defaultFirebase } from 'angularfire2';
 
 import {appRouterProviders} from './app.routes';
@@ -12,6 +13,7 @@ bootstrap(AppComponent, [
         authDomain: "usertech-lunch-app.firebaseapp.com",
         databaseURL: "https://usertech-lunch-app.firebaseio.com",
         storageBucket: "usertech-lunch-app.appspot.com"
-    })
-]);
+    }),
+    HTTP_PROVIDERS]
+);
 
