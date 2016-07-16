@@ -1,19 +1,27 @@
 import {Component, Input} from '@angular/core';
-import {FirebaseListObservable, AngularFire} from "angularfire2/angularfire2";
+import {FirebaseObjectObservable, AngularFire} from "angularfire2/angularfire2";
 import {Restaurant} from '../../model/Restaurant.interface.ts';
 import {MenuList} from '../menu/list.component.ts';
-import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.pipe.ts';
+import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.ts';
+import {ToArray} from '../../pipes/to-array.ts';
+import {CountVotes} from '../../pipes/count-votes.ts';
+
 
 @Component({
   selector: 'restaurant-item',
   styles: [ require('./restaurant.component.scss')],
   directives: [MenuList],
-  pipes: [ExtractRestaurantMenu],
+  pipes: [ExtractRestaurantMenu, ToArray, CountVotes],
   template: `
     <h1> restaurant-item </h1>
     <h4>{{restaurant.name}} </h4>
     <div> {{restaurant.location}}</div>
     <div> {{restaurant.category}} </div>
+    <strong>{{restaurant.$key}}:</strong> ({{restaurant.value | countVotes}} votes)
+    <button (click)="restaurantVote(restaurant)">Vote for this restaurant</button>
+    <div *ngFor="let vote of restaurant.value | toArray">
+        {{vote.$key}}: {{vote.value}}
+    </div>
     <menu-list [dishes]="dishes | extractRestaurantMenu : restaurant.id "> </menu-list>
   `
 })
@@ -21,8 +29,14 @@ import {ExtractRestaurantMenu} from '../../pipes/restaurantMenu.pipe.ts';
 export class RestaurantItem {
   @Input() restaurant: Restaurant;
   dishes: Array<any>;
+  votes: FirebaseObjectObservable<any[]>;
+  dates: any;
 
-  constructor(){
+  constructor(private af: AngularFire){
+    this.votes = af.database.object('/votes');
+    this.votes.subscribe((res) => {
+        this.dates = res;
+    });
     this.dishes = [
       {
       "distance":"0.13808051082295206",

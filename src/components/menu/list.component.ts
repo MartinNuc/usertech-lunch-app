@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Menu} from '../../model/Menu.interface.ts'
+import {Menu} from '../../interfaces/Menu.interface.ts'
 import {MenuItem} from './item.component.ts'
 
 @Component({

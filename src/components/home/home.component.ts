@@ -5,28 +5,19 @@ import {Stringify} from '../../pipes/stringify';
 import {ToArray} from '../../pipes/to-array';
 import {DailyMenuProvider} from '../../models/DailyMenuProvider';
 import {DailyMenuQuery} from '../../interfaces/DailyMenuQuery';
+import {RestaurantList} from '../restaurant/list.component.ts'
 
 @Component({
     selector: 'home-component',
     styles: [require('./home.component.scss')],
+    directives: [RestaurantList],
     pipes: [CountVotes, Stringify, ToArray],
     providers: [DailyMenuProvider],
+    directives: [RestaurantItem],
     template: `
         <h1>Restaurants</h1>
         <input [(ngModel)]="name" type="text"/>
-        <div *ngFor="let date of votes | async | toArray">
-            <div *ngFor="let restaurant of date.value | toArray">
-                <strong>{{restaurant.$key}}:</strong> ({{restaurant.value | countVotes}} votes)
-                <button (click)="restaurantVote(restaurant, date)">Vote for this restaurant</button>
-                <div *ngFor="let vote of restaurant.value | toArray">
-                    {{vote.$key}}: {{vote.value}}
-                </div>
-            </div>
-        </div>
-
-        <div *ngFor="let dailyMenu of dailyMenus | async">
-            {{dailyMenu.name}}
-        </div>
+        <restaurant-list> </restaurant-list>
     `
 })
 export class Home {
@@ -70,9 +61,24 @@ export class Home {
         } else {
             // vote not present, add it as positive
             this.dates[dateKey][restaurant.$key][this.name] = true;
-        }   
+        }
         delete this.dates.$key;
         this.votes.update(this.dates);
 
     }
 }
+
+//
+// <div *ngFor="let date of votes | async | toArray">
+//     <div *ngFor="let restaurant of date.value | toArray">
+//         <strong>{{restaurant.$key}}:</strong> ({{restaurant.value | countVotes}} votes)
+//         <button (click)="restaurantVote(restaurant, date)">Vote for this restaurant</button>
+//         <div *ngFor="let vote of restaurant.value | toArray">
+//             {{vote.$key}}: {{vote.value}}
+//         </div>
+//     </div>
+// </div>
+//
+// <div *ngFor="let dailyMenu of dailyMenus | async">
+//     {{dailyMenu.name}}
+// </div>
