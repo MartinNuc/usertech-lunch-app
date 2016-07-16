@@ -8,7 +8,8 @@ import {RestaurantItem} from './item.component.ts'
   styles: [ require('./restaurant.component.scss')],
   directives: [RestaurantItem],
   template: `
-    <h1> {{restaurants.length}} Restaurants are available Today </h1>
+    <h1> restaurant-list </h1>
+    <h4> {{restaurants.length}} Restaurants are available Today </h4>
     <restaurant-item
       *ngFor="let restaurant of restaurants"
       [restaurant] = "restaurant"
@@ -23,17 +24,17 @@ export class RestaurantList {
     this.restaurants = [
       {
         name: "test",
-        id: 12,
+        id: 1262,
         location: "araadfakfjkj",
         category: "thai",
         distance: 0.05932
       },{
         name: "4th categories",
-        id: 112,
+        id: 2172,
         location: "hgoe ajasdf adfasdf",
         category: "viet",
         distance: 0.05932
-      }{
+      },{
         name: "fancy place",
         id: 12,
         location: "araadfakfjkj",

@@ -6,7 +6,6 @@ import {Dish} from '../../model/Dish.interface.ts'
   selector: 'menu-item',
   styles: [ require('./menu.component.scss')],
   template: `
-    <h3> menu dish item </h3>
     <div>{{dish.name}}  for {{dish.price}}</div>
   `
 })
